@@ -18,4 +18,4 @@ class Contato {
     }
   }
   
-  module.exports = Contato;
+export default Contato;
