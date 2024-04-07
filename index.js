@@ -12,12 +12,12 @@ class CLI {
     }
 
     exibirMenu() {
-        console.log('=== Menu ===');
+        console.log('=== Menu ===\n');
         console.log('1. Adicionar Contato');
         console.log('2. Remover Contato');
         console.log('3. Listar Contatos');
         console.log('4. Buscar Contato');
-        console.log('5. Sair');
+        console.log('5. Sair\n');
     }
 
     adicionarContato() {
@@ -26,7 +26,7 @@ class CLI {
                 this.rl.question('Email: ', email => {
                     const contato = new Contato(nome, telefone, email);
                     this.gerenciadorContatos.adicionarContato(contato);
-                    console.log('Contato adicionado com sucesso!');
+                    console.log(`\n ${nome} adicionado com sucesso!\n`);
                     this.menu();
                 });
             });
@@ -35,10 +35,11 @@ class CLI {
 
     removerContato() {
         this.rl.question('Telefone do Contato a ser removido: ', telefone => {
+            const contatoRemovido = this.gerenciadorContatos.buscarContato(telefone).nome;
             if (this.gerenciadorContatos.removerContato(telefone)) {
-                console.log('Contato removido com sucesso!');
+                console.log(`\n ${contatoRemovido} removido com sucesso!\n`);
             } else {
-                console.log('Contato não encontrado.');
+                console.log('\nContato não encontrado.\n');
             }
             this.menu();
         });
@@ -46,10 +47,11 @@ class CLI {
 
     listarContatos() {
         const contatos = this.gerenciadorContatos.listarContatos();
-        console.log('=== Contatos ===');
+        console.log('\n=== Contatos ===\n');
         contatos.forEach(contato => {
             console.log(`Nome: ${contato.nome}, Telefone: ${contato.telefone}, Email: ${contato.email}`);
         });
+        console.log('');
         this.menu();
     }
 
@@ -57,9 +59,9 @@ class CLI {
         this.rl.question('Telefone do Contato a ser buscado: ', telefone => {
             const contato = this.gerenciadorContatos.buscarContato(telefone);
             if (contato) {
-                console.log(`Nome: ${contato.nome}, Telefone: ${contato.telefone}, Email: ${contato.email}`);
+                console.log(`\nNome: ${contato.nome}, Telefone: ${contato.telefone}, Email: ${contato.email}\n`);
             } else {
-                console.log('Contato não encontrado.');
+                console.log('\nContato não encontrado.\n');
             }
             this.menu();
         });
@@ -82,18 +84,18 @@ class CLI {
                     this.buscarContato();
                     break;
                 case '5':
-                    console.log('Saindo...');
+                    console.log('\nSaindo...\n');
                     this.rl.close();
                     break;
                 default:
-                    console.log('Opção inválida.');
+                    console.log('\nOpção inválida.\n');
                     this.menu();
             }
         });
     }
 
     iniciar() {
-        console.log('Bem-vindo ao sistema de gerenciamento de contatos!');
+        console.log('Bem-vindo ao sistema de gerenciamento de contatos!\n');
         this.menu();
     }
 }
