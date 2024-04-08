@@ -25,8 +25,9 @@ class CLI {
             this.rl.question('Telefone: ', telefone => {
                 this.rl.question('Email: ', email => {
                     const contato = new Contato(nome, telefone, email);
-                    this.gerenciadorContatos.adicionarContato(contato);
-                    console.log(`\n ${nome} adicionado com sucesso!\n`);
+                    if(this.gerenciadorContatos.adicionarContato(contato)){
+                        console.log(`\n ${nome} adicionado com sucesso!\n`)
+                    };
                     this.menu();
                 });
             });
@@ -35,8 +36,8 @@ class CLI {
 
     removerContato() {
         this.rl.question('Telefone do Contato a ser removido: ', telefone => {
-            const contatoRemovido = this.gerenciadorContatos.buscarContato(telefone).nome;
-            if (this.gerenciadorContatos.removerContato(telefone)) {
+            const contatoRemovido = this.gerenciadorContatos.removerContato(telefone);
+            if (contatoRemovido) {
                 console.log(`\n ${contatoRemovido} removido com sucesso!\n`);
             } else {
                 console.log('\nContato não encontrado.\n');
@@ -56,10 +57,11 @@ class CLI {
     }
 
     buscarContato() {
-        this.rl.question('Telefone do Contato a ser buscado: ', telefone => {
-            const contato = this.gerenciadorContatos.buscarContato(telefone);
+        this.rl.question('Nome do Contato a ser buscado: ', nome => {
+            const contato = this.gerenciadorContatos.buscarContato(nome);
             if (contato) {
-                console.log(`\nNome: ${contato.nome}, Telefone: ${contato.telefone}, Email: ${contato.email}\n`);
+                for(let i = 0; i < contato.length; i++)
+                console.log(`\nNome: ${contato[i].nome}, Telefone: ${contato[i].telefone}, Email: ${contato[i].email}\n`);
             } else {
                 console.log('\nContato não encontrado.\n');
             }
