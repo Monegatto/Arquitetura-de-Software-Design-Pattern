@@ -32,5 +32,5 @@ A escolha dos padrões de projeto Strategy e Singleton para este sistema de gere
 
 Esta abordagem de design ajuda a melhorar a modularidade, a reutilização de código e a escalabilidade do sistema, preparando-o para enfrentar mudanças e evoluções futuras com facilidade.
 
-Alunos: Giovani Gabriel Mendes Ohira de Rossi
+Alunos: Giovani Gabriel Mendes Ohira de Rossi, 
         João Botter Monegatto
