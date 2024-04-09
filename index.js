@@ -2,6 +2,22 @@ import readline from 'readline';
 import GerenciadorContatos from './GerenciadorContatos.js';
 import Contato from './Contato.js';
 
+class BuscaStrategy {
+    buscarContato(gerenciador, termo) {}
+}
+
+class BuscaPorNome extends BuscaStrategy {
+    buscarContato(gerenciador, nome) {
+        return gerenciador.buscarContatoPorNome(nome);
+    }
+}
+
+class BuscaPorTelefone extends BuscaStrategy {
+    buscarContato(gerenciador, telefone) {
+        return gerenciador.buscarContatoPorTelefone(telefone);
+    }
+}
+
 class CLI {
     constructor() {
         this.gerenciadorContatos = new GerenciadorContatos();
@@ -9,6 +25,9 @@ class CLI {
             input: process.stdin,
             output: process.stdout
         });
+        this.buscaPorNomeStrategy = new BuscaPorNome();
+        this.buscaPorTelefoneStrategy = new BuscaPorTelefone();
+        this.gerenciadorContatos.setBuscaStrategy(this.buscaPorNomeStrategy);
     }
 
     exibirMenu() {
@@ -57,15 +76,36 @@ class CLI {
     }
 
     buscarContato() {
-        this.rl.question('Nome do Contato a ser buscado: ', nome => {
-            const contato = this.gerenciadorContatos.buscarContato(nome);
-            if (contato) {
-                for(let i = 0; i < contato.length; i++)
-                console.log(`\nNome: ${contato[i].nome}, Telefone: ${contato[i].telefone}, Email: ${contato[i].email}\n`);
-            } else {
-                console.log('\nContato não encontrado.\n');
+        this.rl.question('Digite 1 para buscar por nome ou 2 para buscar por telefone: ', opcao => {
+            switch (opcao) {
+                case '1':
+                    this.gerenciadorContatos.setBuscaStrategy(this.buscaPorNomeStrategy);
+                    this.rl.question('Nome do Contato a ser buscado: ', nome => {
+                        const contato = this.gerenciadorContatos.buscarContato(nome);
+                        if (contato) {
+                            console.log(`Contato encontrado: ${contato.nome}, ${contato.telefone}, ${contato.email}`);
+                        } else {
+                            console.log('Contato não encontrado.');
+                        }
+                        this.menu();
+                    });
+                    break;
+                case '2':
+                    this.gerenciadorContatos.setBuscaStrategy(this.buscaPorTelefoneStrategy);
+                    this.rl.question('Telefone do Contato a ser buscado: ', telefone => {
+                        const contato = this.gerenciadorContatos.buscarContato(telefone);
+                        if (contato) {
+                            console.log(`Contato encontrado: ${contato.nome}, ${contato.telefone}, ${contato.email}`);
+                        } else {
+                            console.log('Contato não encontrado.');
+                        }
+                        this.menu();
+                    });
+                    break;
+                default:
+                    console.log('Opção inválida.');
+                    this.menu();
             }
-            this.menu();
         });
     }
 
@@ -104,3 +144,5 @@ class CLI {
 
 const cli = new CLI();
 cli.iniciar();
+
+export default CLI;
