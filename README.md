@@ -1,4 +1,4 @@
-#### Alunos: Giovani Gabriel Mendes Ohira de Rossi, João Botter Monegatto
+#### Alunos: Giovani Gabriel Mendes Ohira de Rossi, João Pedro Boter Monegatto
 
 
 ## Padrões de Projeto Utilizados no Sistema de Gerenciamento de Contatos
